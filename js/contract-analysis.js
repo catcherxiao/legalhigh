@@ -1,6 +1,6 @@
 class ContractAnalysis {
     constructor() {
-        this.supportedFormats = ['.pdf', '.doc', '.docx', '.jpg', '.png', '.txt'];
+        this.supportedFormats = ['.pdf', '.doc', '.docx', '.jpg', '.jpeg', '.png', '.txt'];
         this.maxFileSize = 10 * 1024 * 1024; // 10MB
         this.baiduOCR = {
             apiKey: 'WjsLulf3hGo599Y0iOwq6lN9',
@@ -8,6 +8,7 @@ class ContractAnalysis {
             accessToken: null,
             tokenExpireTime: 0
         };
+        this.currentFile = null;
         this.setupEventListeners();
     }
 
@@ -33,6 +34,12 @@ class ContractAnalysis {
         const analyzeBtn = document.getElementById('analyzeBtn');
         if (analyzeBtn) {
             analyzeBtn.addEventListener('click', () => this.analyzeContract());
+        }
+
+        // 添加导出按钮事件监听
+        const exportBtn = document.getElementById('exportBtn');
+        if (exportBtn) {
+            exportBtn.addEventListener('click', () => this.exportReport());
         }
     }
 
@@ -66,76 +73,53 @@ class ContractAnalysis {
         }
     }
 
-    validateAndProcessFile(file) {
+    validateFile(file) {
         // 检查文件大小
         if (file.size > this.maxFileSize) {
-            this.showError('文件大小不能超过10MB');
-            return;
+            alert('文件大小不能超过10MB');
+            return false;
         }
 
         // 检查文件类型
         const extension = '.' + file.name.split('.').pop().toLowerCase();
         if (!this.supportedFormats.includes(extension)) {
-            this.showError('不支持的文件格式');
+            alert('不支持的文件格式');
+            return false;
+        }
+
+        // 保存当前文件
+        this.currentFile = file;
+        return true;
+    }
+
+    validateAndProcessFile(file) {
+        // 验证文件
+        if (!this.validateFile(file)) {
             return;
         }
 
-        // 如果是图片，检查图片尺寸
-        if (file.type.startsWith('image/')) {
-            this.validateImageSize(file).then(() => {
-                this.currentFile = file;
-                this.updateUploadUI(file);
-                document.getElementById('analyzeBtn').disabled = false;
-            }).catch(error => {
-                this.showError(error.message);
-            });
-        } else {
-            // 非图片文件直接处理
-            this.currentFile = file;
-            this.updateUploadUI(file);
-            document.getElementById('analyzeBtn').disabled = false;
-        }
+        // 更新UI显示已上传文件
+        this.updateFileDisplay(file);
+
+        // 启用分析按钮
+        document.getElementById('analyzeBtn').disabled = false;
     }
 
-    validateImageSize(file) {
-        return new Promise((resolve, reject) => {
-            const img = new Image();
-            img.src = URL.createObjectURL(file);
-            img.onload = () => {
-                URL.revokeObjectURL(img.src);
-                // 检查图片尺寸（建议最小尺寸）
-                if (img.width < 500 || img.height < 500) {
-                    reject(new Error('图片尺寸过小，可能影响识别效果'));
-                } else {
-                    resolve();
-                }
-            };
-            img.onerror = () => {
-                URL.revokeObjectURL(img.src);
-                reject(new Error('图片加载失败'));
-            };
-        });
-    }
-
-    updateUploadUI(file) {
+    updateFileDisplay(file) {
         const uploadArea = document.getElementById('uploadArea');
-        uploadArea.innerHTML = `
-            <div class="file-info">
-                <svg class="file-icon" width="32" height="32" viewBox="0 0 24 24">
-                    <path d="M14 2H6C4.9 2 4 2.9 4 4V20C4 21.1 4.9 22 6 22H18C19.1 22 20 21.1 20 20V8L14 2Z" fill="currentColor"/>
-                </svg>
-                <div class="file-details">
-                    <span class="file-name">${file.name}</span>
-                    <span class="file-size">${this.formatFileSize(file.size)}</span>
-                </div>
-                <button class="remove-file" onclick="contractAnalysis.removeFile()">
-                    <svg width="16" height="16" viewBox="0 0 24 24">
-                        <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z" fill="currentColor"/>
-                    </svg>
-                </button>
-            </div>
-            <p class="upload-hint">点击或拖放更换文件</p>
-        `;
+        const defaultView = uploadArea.querySelector('.upload-default');
+        const fileInfo = uploadArea.querySelector('.file-info');
+        const fileName = fileInfo.querySelector('.file-name');
+        const fileSize = fileInfo.querySelector('.file-size');
+
+        // 更新文件信息
+        fileName.textContent = file.name;
+        fileSize.textContent = this.formatFileSize(file.size);
+
+        // 切换显示
+        defaultView.style.display = 'none';
+        fileInfo.style.display = 'flex';
+        uploadArea.classList.add('has-file');
     }
 
     formatFileSize(bytes) {
@@ -167,24 +151,25 @@ class ContractAnalysis {
 
     async analyzeContract() {
         if (!this.currentFile) {
-            this.showError('请先上传文件');
+            alert('请先上传文件');
             return;
         }
 
-        this.showLoading();
-
         try {
-            // 1. 提取文本
-            const text = await this.extractText(this.currentFile);
-            
-            // 2. 分析文本
-            const analysis = await this.performAnalysis(text);
-            
-            // 3. 显示结果
-            this.showAnalysisResult(analysis);
+            // 这里添加文件处理和分析逻辑
+            // 模拟分析结果
+            const result = {
+                riskLevel: '中等风险',
+                riskPoints: '1. 付款条件不够明确\n2. 违约责任条款不完整\n3. 合同终止条件模糊',
+                suggestions: '1. 明确约定付款时间和条件\n2. 完善违约责任条款\n3. 详细规定合同终止的具体情形',
+                compliance: '1. 基本条款齐全\n2. 主体资格合规\n3. 需要补充部分强制性条款'
+            };
+
+            // 更新显示结果
+            this.updateAnalysisResult(result);
         } catch (error) {
-            console.error('分析错误:', error);
-            this.showError('合同分析失败，请重试');
+            console.error('分析失败:', error);
+            alert('分析失败，请重试');
         }
     }
 
@@ -677,25 +662,89 @@ class ContractAnalysis {
 
     async exportReport() {
         try {
-            const { jsPDF } = window.jspdf;
-            const doc = new jsPDF();
-            const content = document.querySelector('.result-content').textContent;
+            if (!this.currentResult) {
+                throw new Error('没有可导出的分析结果');
+            }
+
+            // 创建报告内容
+            const reportContent = this.generateReportContent();
             
-            // 添加标题
-            doc.setFontSize(18);
-            doc.text('合同风险分析报告', 105, 20, { align: 'center' });
+            // 创建Blob对象
+            const blob = new Blob([reportContent], { type: 'text/plain;charset=utf-8' });
             
-            // 添加报告内容
-            doc.setFontSize(12);
-            const splitText = doc.splitTextToSize(content, 180);
-            doc.text(splitText, 15, 40);
+            // 创建下载链接
+            const url = window.URL.createObjectURL(blob);
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = `合同分析报告_${new Date().toLocaleDateString()}.txt`;
             
-            // 保存文件
-            doc.save(`合同分析报告_${new Date().toISOString().split('T')[0]}.pdf`);
+            // 触发下载
+            document.body.appendChild(link);
+            link.click();
+            
+            // 清理
+            document.body.removeChild(link);
+            window.URL.revokeObjectURL(url);
         } catch (error) {
-            console.error('PDF导出错误:', error);
-            this.showError('报告导出失败，请重试');
+            console.error('导出报告失败:', error);
+            alert('报告导出失败，请重试');
         }
+    }
+
+    // 生成报告内容
+    generateReportContent() {
+        const result = this.currentResult;
+        return `合同分析报告
+生成时间：${new Date().toLocaleString()}
+
+一、风险等级评估
+${formatAnalysisResult(result.riskLevel)}
+
+二、主要风险点
+${formatAnalysisResult(result.riskPoints)}
+
+三、改进建议
+${formatAnalysisResult(result.suggestions)}
+
+四、合规性检查
+${formatAnalysisResult(result.compliance)}
+
+----------------------------------------
+由法槌槌智能合同分析系统生成
+© ${new Date().getFullYear()} 法槌槌. All rights reserved.`;
+    }
+
+    // 更新分析结果时保存当前结果
+    updateAnalysisResult(result) {
+        this.currentResult = result;
+        
+        // 风险等级显示
+        const riskLevelEl = document.getElementById('riskLevel');
+        riskLevelEl.innerHTML = `<span class="risk-level medium">${formatAnalysisResult(result.riskLevel)}</span>`;
+        
+        // 其他内容显示
+        document.getElementById('riskPoints').textContent = formatAnalysisResult(result.riskPoints);
+        document.getElementById('suggestions').textContent = formatAnalysisResult(result.suggestions);
+        document.getElementById('compliance').textContent = formatAnalysisResult(result.compliance);
+        
+        document.getElementById('analysisResult').style.display = 'block';
+    }
+
+    // 重置上传区域
+    resetUpload() {
+        const uploadArea = document.getElementById('uploadArea');
+        const defaultView = uploadArea.querySelector('.upload-default');
+        const fileInfo = uploadArea.querySelector('.file-info');
+
+        // 重置显示
+        defaultView.style.display = 'flex';
+        fileInfo.style.display = 'none';
+        uploadArea.classList.remove('has-file');
+
+        // 重置文件输入
+        document.getElementById('fileInput').value = '';
+        this.currentFile = null;
+        document.getElementById('analyzeBtn').disabled = true;
     }
 }
 
@@ -703,4 +752,29 @@ class ContractAnalysis {
 let contractAnalysis;
 document.addEventListener('DOMContentLoaded', () => {
     contractAnalysis = new ContractAnalysis();
-}); 
+});
+
+// 在分析完成后处理markdown格式
+function formatAnalysisResult(markdown) {
+    // 移除markdown标记
+    let text = markdown
+        .replace(/#{1,6}\s?/g, '') // 移除标题标记
+        .replace(/\*\*/g, '')      // 移除加粗标记
+        .replace(/\*/g, '')        // 移除斜体标记
+        .replace(/`/g, '')         // 移除代码标记
+        .replace(/>/g, '')         // 移除引用标记
+        .replace(/\n\s*\n/g, '\n') // 将多个空行替换为单个换行
+        .trim();
+
+    return text;
+}
+
+// 更新显示结果的函数
+function updateAnalysisResult(result) {
+    document.getElementById('riskLevel').textContent = formatAnalysisResult(result.riskLevel);
+    document.getElementById('riskPoints').textContent = formatAnalysisResult(result.riskPoints);
+    document.getElementById('suggestions').textContent = formatAnalysisResult(result.suggestions);
+    document.getElementById('compliance').textContent = formatAnalysisResult(result.compliance);
+    
+    document.getElementById('analysisResult').style.display = 'block';
+} 
