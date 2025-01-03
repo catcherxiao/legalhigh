@@ -19,6 +19,10 @@ body {
     line-height: 1.6;
     color: var(--text-color);
     background-color: var(--background-color);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    margin: 0;
 }
 
 .container {
@@ -75,6 +79,8 @@ body {
 /* 主要内容区样式 */
 main {
     margin-top: 64px;
+    flex: 1;
+    padding-bottom: 60px;
 }
 
 /* 欢迎区域样式 */
@@ -179,10 +185,27 @@ main {
 
 /* 页脚样式 */
 footer {
-    background: var(--secondary-background);
-    padding: 20px 0;
-    text-align: center;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background: #fff;
+    padding: 15px 0;
+    border-top: 1px solid #eee;
+    box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.05);
+    z-index: 1000;
+}
+
+footer .container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+footer p {
+    margin: 0;
     color: #666;
+    font-size: 14px;
 }
 
 /* 响应式设计 */

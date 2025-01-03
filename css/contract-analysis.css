@@ -1,458 +1,294 @@
-.analysis-main {
-    padding-top: 80px;
-    min-height: calc(100vh - 64px);
-    background: var(--secondary-background);
-}
-
-.upload-section {
+/* 主容器样式 */
+.analysis-container {
+    width: 100%;
     max-width: 800px;
     margin: 0 auto;
-    text-align: center;
+    padding: 20px;
+}
+
+/* 上传区域样式 */
+.upload-section {
+    width: 100%;
+    margin-bottom: 40px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.upload-section h2 {
+    width: 100%;
+    margin-bottom: 24px;
+    font-size: 24px;
+    color: var(--text-color);
 }
 
 .upload-area {
+    width: 100%;
+    min-height: 280px;
+    border: 2px dashed #E0E0E0;
+    border-radius: 12px;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    background: var(--background-color);
-    border: 2px dashed #ddd;
-    border-radius: var(--border-radius);
     padding: 40px;
-    margin-bottom: 20px;
     cursor: pointer;
     transition: all 0.3s ease;
-    text-align: center;
-    min-height: 240px;
+    margin-bottom: 24px;
+    background-color: #F8F9FA;
 }
 
 .upload-area:hover {
     border-color: var(--primary-color);
-    background: #f8f9fa;
+    background-color: #F0F7FF;
 }
 
 .upload-area.dragover {
     border-color: var(--primary-color);
-    background: #f0f7ff;
+    background-color: #F0F7FF;
+    transform: scale(1.01);
 }
 
 .upload-icon {
-    color: #666;
+    width: 64px;
+    height: 64px;
     margin-bottom: 16px;
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
-    transform: scale(1.2);
-}
-
-.upload-area h3 {
-    margin-bottom: 8px;
-    color: #333;
-    font-size: 1.2em;
-}
-
-.upload-area p {
-    color: #666;
-    margin-bottom: 12px;
-    font-size: 1em;
-}
-
-.supported-formats {
-    font-size: 0.9em;
-    color: #999;
-}
-
-/* 文件信息显示样式 */
-.file-info {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    background: #f8f9fa;
-    padding: 12px;
-    border-radius: 8px;
-    margin-bottom: 12px;
-}
-
-.file-details {
-    flex: 1;
-    text-align: left;
-}
-
-.file-name {
-    display: block;
-    font-weight: 500;
-    color: #333;
-}
-
-.file-size {
-    display: block;
-    font-size: 0.9em;
-    color: #666;
-}
-
-.remove-file {
-    background: none;
-    border: none;
-    color: #999;
-    cursor: pointer;
-    padding: 4px;
-    border-radius: 4px;
-    transition: all 0.3s ease;
-}
-
-.remove-file:hover {
-    background: #eee;
-    color: #ff4d4f;
-}
-
-/* 上传提示文本 */
-.upload-hint {
-    font-size: 0.9em;
-    color: #999;
-    margin-top: 8px;
-}
-
-/* 分析结果样式 */
-.analysis-result {
-    margin-top: 30px;
-    background: white;
-    border-radius: var(--border-radius);
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-    overflow: hidden;
-}
-
-.result-header {
-    padding: 20px;
-    border-bottom: 1px solid #eee;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.export-btn {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    padding: 8px 16px;
-    border: 1px solid #ddd;
-    border-radius: 6px;
-    background: white;
-    color: #666;
-    cursor: pointer;
-    transition: all 0.3s ease;
-}
-
-.export-btn:hover {
-    border-color: var(--primary-color);
     color: var(--primary-color);
 }
 
-.result-content {
-    padding: 20px;
-}
-
-.risk-summary, .risk-details, .suggestions {
-    margin-bottom: 30px;
-}
-
-.risk-level {
-    margin-top: 16px;
-    padding: 16px;
-    border-radius: 8px;
-    display: flex;
-    align-items: center;
-    gap: 12px;
-}
-
-.risk-level.high {
-    background: #fff2f0;
-    color: #cf1322;
-}
-
-.risk-level.medium {
-    background: #fffbe6;
-    color: #d48806;
-}
-
-.risk-level.low {
-    background: #f6ffed;
-    color: #389e0d;
-}
-
-.risk-item, .suggestion-item {
-    margin-bottom: 16px;
-    padding: 16px;
-    border-radius: 8px;
-    background: #f8f9fa;
-}
-
-.risk-item h4, .suggestion-item h4 {
+.upload-area h3 {
+    font-size: 18px;
+    color: var(--text-color);
     margin-bottom: 8px;
-    color: #333;
+    font-weight: 500;
 }
 
-.risk-item p, .suggestion-item p {
-    color: #666;
-    font-size: 0.9rem;
-}
-
-/* 加载动画 */
-.loading {
-    text-align: center;
-    padding: 40px;
-}
-
-.loading-spinner {
-    width: 40px;
-    height: 40px;
-    border: 4px solid #f3f3f3;
-    border-top: 4px solid var(--primary-color);
-    border-radius: 50%;
-    margin: 0 auto 20px;
-    animation: spin 1s linear infinite;
-}
-
-@keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
-}
-
-/* 响应式设计 */
-@media (max-width: 768px) {
-    .upload-section, .analysis-result {
-        margin: 20px;
-    }
-    
-    .upload-area {
-        padding: 20px;
-    }
-    
-    .result-header {
-        flex-direction: column;
-        gap: 16px;
-    }
-} 
-
-/* 错误消息样式 */
-.error-message {
-    display: flex;
-    align-items: flex-start;
-    gap: 16px;
-    padding: 24px;
-    background: #fff2f0;
-    border: 1px solid #ffccc7;
-    border-radius: var(--border-radius);
-    color: #cf1322;
-    margin: 20px;
-}
-
-.error-message svg {
-    flex-shrink: 0;
-    margin-top: 4px;
-}
-
-.error-content {
-    flex: 1;
-}
-
-.error-content h4 {
-    margin-bottom: 8px;
+.upload-area p {
     font-size: 16px;
-}
-
-.error-content p {
+    color: #666;
     margin-bottom: 16px;
-    font-size: 14px;
-    line-height: 1.5;
 }
 
-.retry-btn {
-    padding: 6px 16px;
-    background: #ff4d4f;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
+.supported-formats {
+    font-size: 14px;
+    color: #888;
+    background-color: #fff;
+    padding: 8px 16px;
+    border-radius: 20px;
+    border: 1px solid #E0E0E0;
+}
+
+#analyzeBtn {
+    width: 100%;
+    max-width: 200px;
+    height: 44px;
+    font-size: 16px;
+    font-weight: 500;
+    border-radius: 8px;
     transition: all 0.3s ease;
 }
 
-.retry-btn:hover {
-    background: #cf1322;
+#analyzeBtn:disabled {
+    background-color: #E0E0E0;
+    cursor: not-allowed;
+    opacity: 0.7;
 }
 
-/* 简化分析报告样式 */
-.analysis-report {
-    background: white;
-    border-radius: 8px;
-    margin: 24px auto;
-    max-width: 1000px;
+#analyzeBtn:not(:disabled):hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
-.report-header {
-    padding: 20px 24px;
-    border-bottom: 1px solid #eee;
+/* 添加动画效果 */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.upload-section {
+    animation: fadeIn 0.5s ease;
+}
+
+/* 分析结果区域样式 */
+.analysis-result {
+    width: 100%;
+}
+
+/* 报告头部样式 */
+.result-header {
+    width: 100%;
     display: flex;
     justify-content: space-between;
     align-items: center;
-}
-
-.report-content {
-    padding: 24px;
-}
-
-.section {
     margin-bottom: 32px;
-    border-bottom: 1px solid #f0f0f0;
-    padding-bottom: 24px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid #E0E0E0;
 }
 
-.section:last-child {
-    margin-bottom: 0;
-    border-bottom: none;
-    padding-bottom: 0;
+.result-header h2 {
+    font-size: 24px;
+    color: var(--text-color);
+    margin: 0;
 }
 
-.section h3 {
-    font-size: 18px;
-    color: #333;
+/* 导出按钮样式 */
+#exportBtn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 20px;
+    background-color: #fff;
+    border: 1px solid var(--primary-color);
+    color: var(--primary-color);
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    white-space: nowrap;
+    min-width: 120px;
+    justify-content: center;
+}
+
+#exportBtn:hover {
+    background-color: var(--primary-color);
+    color: #fff;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(33, 150, 243, 0.2);
+}
+
+#exportBtn svg {
+    width: 16px;
+    height: 16px;
+}
+
+/* 分析结果网格布局 */
+.result-grid {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+/* 结果卡片样式 */
+.result-card {
+    width: 100%;
+    background: #fff;
+    border-radius: 12px;
+    padding: 24px;
+    border: 1px solid #E0E0E0;
+    transition: all 0.3s ease;
+}
+
+.result-card:hover {
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+    transform: translateY(-2px);
+}
+
+.result-card h3 {
+    color: var(--text-color);
     margin-bottom: 16px;
-    padding-left: 12px;
-    border-left: 4px solid var(--primary-color);
+    font-size: 18px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.result-card .content {
+    color: #444;
+    line-height: 1.6;
+    white-space: pre-line;
+    font-size: 15px;
+}
+
+/* 响应式布局 */
+@media (max-width: 768px) {
+    .result-header {
+        flex-direction: column;
+        gap: 16px;
+        align-items: flex-start;
+    }
+
+    #exportBtn {
+        width: 100%;
+    }
+
+    .result-card {
+        padding: 20px;
+    }
 }
 
 /* 风险等级样式 */
 .risk-level {
-    display: flex;
-    align-items: center;
-    gap: 16px;
-    padding: 16px;
-    background: #f8f9fa;
-    border-radius: 4px;
-}
-
-/* 风险项目样式 */
-.risk-list {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-}
-
-.risk-item {
-    padding-bottom: 16px;
-    border-bottom: 1px dashed #eee;
-}
-
-.risk-item:last-child {
-    border-bottom: none;
-}
-
-.risk-item-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 12px;
-}
-
-.risk-item-header h4 {
-    font-size: 16px;
-    color: #333;
-}
-
-.severity-badge {
-    font-size: 13px;
-    color: #666;
-}
-
-.risk-item p {
-    color: #666;
-    line-height: 1.6;
-    margin-bottom: 8px;
-}
-
-.risk-item-reference {
-    color: #888;
-    font-size: 13px;
-    line-height: 1.5;
-}
-
-/* 建议列表样式 */
-.suggestion-list {
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-}
-
-.suggestion-item {
-    display: flex;
-    gap: 12px;
-    padding-bottom: 16px;
-    border-bottom: 1px dashed #eee;
-}
-
-.suggestion-item:last-child {
-    border-bottom: none;
-}
-
-.suggestion-number {
-    color: var(--primary-color);
+    display: inline-block;
+    padding: 6px 12px;
+    border-radius: 6px;
     font-weight: 500;
-    font-size: 16px;
-}
-
-.suggestion-content p {
-    color: #666;
-    line-height: 1.6;
-}
-
-/* 合规性检查样式 */
-.compliance-list {
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-}
-
-.compliance-item {
-    display: flex;
-    gap: 12px;
-    padding-bottom: 16px;
-    border-bottom: 1px dashed #eee;
-}
-
-.compliance-item:last-child {
-    border-bottom: none;
-}
-
-.compliance-icon {
-    color: #666;
-}
-
-.compliance-content h4 {
     font-size: 15px;
-    color: #333;
+    margin-bottom: 0;
+    background-color: #FFF3E0;  /* 中等风险的背景色 */
+    color: #F57C00;            /* 中等风险的文字色 */
+}
+
+/* 不同风险等级的颜色 */
+.risk-level.high {
+    background-color: #FFEBEE;
+    color: #D32F2F;
+}
+
+.risk-level.medium {
+    background-color: #FFF3E0;
+    color: #F57C00;
+}
+
+.risk-level.low {
+    background-color: #E8F5E9;
+    color: #388E3C;
+}
+
+/* 文件上传后的样式 */
+.upload-area.has-file {
+    background-color: #F0F7FF;
+    border-color: var(--primary-color);
+}
+
+.file-info {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 16px;
+    background-color: #fff;
+    border-radius: 8px;
+    border: 1px solid #E0E0E0;
+    width: 100%;
+    max-width: 400px;
+}
+
+.file-icon {
+    width: 32px;
+    height: 32px;
+    color: var(--primary-color);
+}
+
+.file-details {
+    flex: 1;
+}
+
+.file-name {
+    font-size: 16px;
+    color: var(--text-color);
     margin-bottom: 4px;
+    font-weight: 500;
 }
 
-.compliance-content p {
+.file-size {
+    font-size: 14px;
     color: #666;
-    line-height: 1.6;
-}
-
-/* 响应式设计 */
-@media (max-width: 768px) {
-    .analysis-report {
-        margin: 16px;
-    }
-
-    .report-header {
-        padding: 16px 20px;
-    }
-
-    .report-content {
-        padding: 20px;
-    }
-
-    .section {
-        padding: 0 8px;
-        margin-bottom: 32px;
-    }
 } 

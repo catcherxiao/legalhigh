@@ -47,19 +47,19 @@ class ContractGenerator {
 
     getFormTemplate(type) {
         const templates = {
-            'production': `
+            'house-lease': `
                 <div class="form-container">
-                    <h2>生产合同信息</h2>
-                    <form id="productionContractForm">
-                        <!-- 甲方信息 -->
+                    <h2>房屋租赁合同信息</h2>
+                    <form id="houseleaseContractForm">
+                        <!-- 出租方（甲方）信息 -->
                         <div class="form-section">
-                            <h3>委托方（甲方）信息</h3>
+                            <h3>出租方（甲方）信息</h3>
                             <div class="form-group">
-                                <label>甲方名称</label>
+                                <label>出租方名称</label>
                                 <input type="text" name="partyAName" required>
                             </div>
                             <div class="form-group">
-                                <label>统一社会信用代码</label>
+                                <label>证件号码</label>
                                 <input type="text" name="partyACode" required>
                             </div>
                             <div class="form-group">
@@ -72,15 +72,15 @@ class ContractGenerator {
                             </div>
                         </div>
 
-                        <!-- 乙方信息 -->
+                        <!-- 承租方（乙方）信息 -->
                         <div class="form-section">
-                            <h3>生产方（乙方）信息</h3>
+                            <h3>承租方（乙方）信息</h3>
                             <div class="form-group">
-                                <label>乙方名称</label>
+                                <label>承租方名称</label>
                                 <input type="text" name="partyBName" required>
                             </div>
                             <div class="form-group">
-                                <label>统一社会信用代码</label>
+                                <label>证件号码</label>
                                 <input type="text" name="partyBCode" required>
                             </div>
                             <div class="form-group">
@@ -93,16 +93,171 @@ class ContractGenerator {
                             </div>
                         </div>
 
-                        <!-- 生产信息 -->
+                        <!-- 房屋信息 -->
                         <div class="form-section">
-                            <h3>生产信息</h3>
+                            <h3>房屋信息</h3>
                             <div class="form-group">
-                                <label>产品名称</label>
-                                <input type="text" name="productName" required>
+                                <label>房屋地址</label>
+                                <input type="text" name="propertyAddress" required>
                             </div>
                             <div class="form-group">
-                                <label>生产数量</label>
-                                <input type="number" name="productionQuantity" required>
+                                <label>建筑面积（平方米）</label>
+                                <input type="number" name="area" required>
+                            </div>
+                            <div class="form-group">
+                                <label>房屋用途</label>
+                                <select name="purpose" required>
+                                    <option value="residence">居住</option>
+                                    <option value="business">商用</option>
+                                    <option value="office">办公</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>房屋状况</label>
+                                <textarea name="condition" rows="3" required></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label>配套设施</label>
+                                <textarea name="facilities" rows="3" required></textarea>
+                            </div>
+                        </div>
+
+                        <!-- 租赁信息 -->
+                        <div class="form-section">
+                            <h3>租赁信息</h3>
+                            <div class="form-group">
+                                <label>租赁期限</label>
+                                <div class="date-range">
+                                    <input type="date" name="startDate" required>
+                                    <span>至</span>
+                                    <input type="date" name="endDate" required>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label>租金（元/月）</label>
+                                <input type="number" name="rent" required>
+                            </div>
+                            <div class="form-group">
+                                <label>支付方式</label>
+                                <select name="paymentMethod" required>
+                                    <option value="monthly">月付</option>
+                                    <option value="quarterly">季付</option>
+                                    <option value="yearly">年付</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>押金（元）</label>
+                                <input type="number" name="deposit" required>
+                            </div>
+                        </div>
+
+                        <!-- 其他约定 -->
+                        <div class="form-section">
+                            <h3>其他约定</h3>
+                            <div class="form-group">
+                                <label>水电费承担方式</label>
+                                <select name="utilityPayment" required>
+                                    <option value="tenant">承租方承担</option>
+                                    <option value="landlord">出租方承担</option>
+                                    <option value="share">双方分摊</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>物业费承担方式</label>
+                                <select name="propertyFee" required>
+                                    <option value="tenant">承租方承担</option>
+                                    <option value="landlord">出租方承担</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>特别约定</label>
+                                <textarea name="specialTerms" rows="3"></textarea>
+                            </div>
+                        </div>
+
+                        <div class="form-actions">
+                            <button type="button" class="secondary-btn" onclick="contractGenerator.goBack()">返回</button>
+                            <button type="submit" class="primary-btn">生成合同</button>
+                        </div>
+                    </form>
+                </div>
+            `,
+            'item-lease': `
+                <div class="form-container">
+                    <h2>物品租赁合同信息</h2>
+                    <form id="itemleaseContractForm">
+                        <!-- 出租方（甲方）信息 -->
+                        <div class="form-section">
+                            <h3>出租方（甲方）信息</h3>
+                            <div class="form-group">
+                                <label>出租方名称</label>
+                                <input type="text" name="lessorName" required>
+                            </div>
+                            <div class="form-group">
+                                <label>证件类型</label>
+                                <select name="lessorIdType" required>
+                                    <option value="id">居民身份证</option>
+                                    <option value="business">营业执照</option>
+                                    <option value="passport">护照</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>证件号码</label>
+                                <input type="text" name="lessorId" required>
+                            </div>
+                            <div class="form-group">
+                                <label>联系电话</label>
+                                <input type="tel" name="lessorPhone" required>
+                            </div>
+                            <div class="form-group">
+                                <label>联系地址</label>
+                                <input type="text" name="lessorAddress" required>
+                            </div>
+                        </div>
+
+                        <!-- 承租方（乙方）信息 -->
+                        <div class="form-section">
+                            <h3>承租方（乙方）信息</h3>
+                            <div class="form-group">
+                                <label>承租方名称</label>
+                                <input type="text" name="lesseeName" required>
+                            </div>
+                            <div class="form-group">
+                                <label>证件类型</label>
+                                <select name="lesseeIdType" required>
+                                    <option value="id">居民身份证</option>
+                                    <option value="business">营业执照</option>
+                                    <option value="passport">护照</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>证件号码</label>
+                                <input type="text" name="lesseeId" required>
+                            </div>
+                            <div class="form-group">
+                                <label>联系电话</label>
+                                <input type="tel" name="lesseePhone" required>
+                            </div>
+                            <div class="form-group">
+                                <label>联系地址</label>
+                                <input type="text" name="lesseeAddress" required>
+                            </div>
+                        </div>
+
+                        <!-- 物品信息 -->
+                        <div class="form-section">
+                            <h3>物品信息</h3>
+                            <div class="form-group">
+                                <label>物品名称</label>
+                                <input type="text" name="itemName" required>
+                            </div>
+                            <div class="form-group">
+                                <label>规格型号</label>
+                                <input type="text" name="specification" required>
+                            </div>
+                            <div class="form-group">
+                                <label>数量</label>
+                                <input type="number" name="quantity" required>
                             </div>
                             <div class="form-group">
                                 <label>单价（元）</label>
@@ -113,67 +268,61 @@ class ContractGenerator {
                                 <input type="number" name="totalAmount" required>
                             </div>
                             <div class="form-group">
-                                <label>技术要求</label>
-                                <textarea name="technicalRequirements" rows="4" required></textarea>
-                            </div>
-                            <div class="form-group">
                                 <label>质量标准</label>
-                                <textarea name="qualityStandards" rows="4" required></textarea>
+                                <textarea name="qualityStandard" rows="3" required></textarea>
                             </div>
                         </div>
 
-                        <!-- 交付信息 -->
+                        <!-- 租赁信息 -->
                         <div class="form-section">
-                            <h3>交付信息</h3>
+                            <h3>租赁信息</h3>
                             <div class="form-group">
-                                <label>交付方式</label>
-                                <select name="deliveryMethod" required>
-                                    <option value="once">一次性交付</option>
-                                    <option value="batch">分批交付</option>
-                                    <option value="continuous">持续供货</option>
-                                </select>
+                                <label>租赁期限</label>
+                                <div class="date-range">
+                                    <input type="date" name="startDate" required>
+                                    <span>至</span>
+                                    <input type="date" name="endDate" required>
+                                </div>
                             </div>
                             <div class="form-group">
-                                <label>交付时间</label>
-                                <input type="date" name="deliveryDate" required>
+                                <label>租金（元/月）</label>
+                                <input type="number" name="rent" required>
                             </div>
-                            <div class="form-group">
-                                <label>交付地点</label>
-                                <input type="text" name="deliveryLocation" required>
-                            </div>
-                        </div>
-
-                        <!-- 付款方式 -->
-                        <div class="form-section">
-                            <h3>付款方式</h3>
                             <div class="form-group">
                                 <label>支付方式</label>
                                 <select name="paymentMethod" required>
-                                    <option value="advance">预付全款</option>
-                                    <option value="partial">分期付款</option>
-                                    <option value="delivery">交付付款</option>
+                                    <option value="monthly">月付</option>
+                                    <option value="quarterly">季付</option>
+                                    <option value="yearly">年付</option>
                                 </select>
                             </div>
                             <div class="form-group">
-                                <label>付款说明</label>
-                                <textarea name="paymentTerms" rows="3" required></textarea>
+                                <label>押金（元）</label>
+                                <input type="number" name="deposit" required>
                             </div>
                         </div>
 
-                        <!-- 违约责任 -->
+                        <!-- 其他约定 -->
                         <div class="form-section">
-                            <h3>违约责任</h3>
+                            <h3>其他约定</h3>
                             <div class="form-group">
-                                <label>质量违约金比例（%）</label>
-                                <input type="number" name="qualityPenaltyRate" required>
+                                <label>水电费承担方式</label>
+                                <select name="utilityPayment" required>
+                                    <option value="tenant">承租方承担</option>
+                                    <option value="landlord">出租方承担</option>
+                                    <option value="share">双方分摊</option>
+                                </select>
                             </div>
                             <div class="form-group">
-                                <label>延期违约金（元/天）</label>
-                                <input type="number" name="delayPenalty" required>
+                                <label>物业费承担方式</label>
+                                <select name="propertyFee" required>
+                                    <option value="tenant">承租方承担</option>
+                                    <option value="landlord">出租方承担</option>
+                                </select>
                             </div>
                             <div class="form-group">
-                                <label>其他违约条款</label>
-                                <textarea name="otherPenalties" rows="4" placeholder="请输入其他违约情况及处理方式"></textarea>
+                                <label>特别约定</label>
+                                <textarea name="specialTerms" rows="3"></textarea>
                             </div>
                         </div>
 
@@ -486,6 +635,303 @@ class ContractGenerator {
                         </div>
                     </form>
                 </div>
+            `,
+            'sale': `
+                <div class="form-container">
+                    <h2>买卖合同信息</h2>
+                    <form id="saleContractForm">
+                        <!-- 卖方（甲方）信息 -->
+                        <div class="form-section">
+                            <h3>卖方（甲方）信息</h3>
+                            <div class="form-group">
+                                <label>卖方名称</label>
+                                <input type="text" name="sellerName" required>
+                            </div>
+                            <div class="form-group">
+                                <label>统一社会信用代码</label>
+                                <input type="text" name="sellerCode" required>
+                            </div>
+                            <div class="form-group">
+                                <label>联系人</label>
+                                <input type="text" name="sellerContact" required>
+                            </div>
+                            <div class="form-group">
+                                <label>联系电话</label>
+                                <input type="tel" name="sellerPhone" required>
+                            </div>
+                            <div class="form-group">
+                                <label>地址</label>
+                                <input type="text" name="sellerAddress" required>
+                            </div>
+                        </div>
+
+                        <!-- 买方（乙方）信息 -->
+                        <div class="form-section">
+                            <h3>买方（乙方）信息</h3>
+                            <div class="form-group">
+                                <label>买方名称</label>
+                                <input type="text" name="buyerName" required>
+                            </div>
+                            <div class="form-group">
+                                <label>统一社会信用代码</label>
+                                <input type="text" name="buyerCode" required>
+                            </div>
+                            <div class="form-group">
+                                <label>联系人</label>
+                                <input type="text" name="buyerContact" required>
+                            </div>
+                            <div class="form-group">
+                                <label>联系电话</label>
+                                <input type="tel" name="buyerPhone" required>
+                            </div>
+                            <div class="form-group">
+                                <label>地址</label>
+                                <input type="text" name="buyerAddress" required>
+                            </div>
+                        </div>
+
+                        <!-- 标的物信息 -->
+                        <div class="form-section">
+                            <h3>标的物信息</h3>
+                            <div class="form-group">
+                                <label>商品名称</label>
+                                <input type="text" name="productName" required>
+                            </div>
+                            <div class="form-group">
+                                <label>规格型号</label>
+                                <input type="text" name="specification" required>
+                            </div>
+                            <div class="form-group">
+                                <label>数量</label>
+                                <input type="number" name="quantity" required>
+                            </div>
+                            <div class="form-group">
+                                <label>单价（元）</label>
+                                <input type="number" name="unitPrice" required>
+                            </div>
+                            <div class="form-group">
+                                <label>总金额（元）</label>
+                                <input type="number" name="totalAmount" required>
+                            </div>
+                            <div class="form-group">
+                                <label>质量标准</label>
+                                <textarea name="qualityStandard" rows="3" required></textarea>
+                            </div>
+                        </div>
+
+                        <!-- 交付信息 -->
+                        <div class="form-section">
+                            <h3>交付信息</h3>
+                            <div class="form-group">
+                                <label>交付方式</label>
+                                <select name="deliveryMethod" required>
+                                    <option value="once">一次性交付</option>
+                                    <option value="batch">分批交付</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>交付时间</label>
+                                <input type="date" name="deliveryDate" required>
+                            </div>
+                            <div class="form-group">
+                                <label>交付地点</label>
+                                <input type="text" name="deliveryLocation" required>
+                            </div>
+                            <div class="form-group">
+                                <label>运输方式</label>
+                                <select name="transportMethod" required>
+                                    <option value="seller">卖方承担运输</option>
+                                    <option value="buyer">买方承担运输</option>
+                                    <option value="third">第三方物流</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <!-- 付款方式 -->
+                        <div class="form-section">
+                            <h3>付款方式</h3>
+                            <div class="form-group">
+                                <label>支付方式</label>
+                                <select name="paymentMethod" required>
+                                    <option value="advance">预付全款</option>
+                                    <option value="partial">分期付款</option>
+                                    <option value="delivery">货到付款</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>付款说明</label>
+                                <textarea name="paymentTerms" rows="3" required></textarea>
+                            </div>
+                        </div>
+
+                        <!-- 违约责任 -->
+                        <div class="form-section">
+                            <h3>违约责任</h3>
+                            <div class="form-group">
+                                <label>质量违约金比例（%）</label>
+                                <input type="number" name="qualityPenaltyRate" required>
+                            </div>
+                            <div class="form-group">
+                                <label>延期违约金（元/天）</label>
+                                <input type="number" name="delayPenalty" required>
+                            </div>
+                            <div class="form-group">
+                                <label>其他违约条款</label>
+                                <textarea name="otherPenalties" rows="3"></textarea>
+                            </div>
+                        </div>
+
+                        <div class="form-actions">
+                            <button type="button" class="secondary-btn" onclick="contractGenerator.goBack()">返回</button>
+                            <button type="submit" class="primary-btn">生成合同</button>
+                        </div>
+                    </form>
+                </div>
+            `,
+            'production': `
+                <div class="form-container">
+                    <h2>生产合同信息</h2>
+                    <form id="productionContractForm">
+                        <!-- 生产方（甲方）信息 -->
+                        <div class="form-section">
+                            <h3>生产方（甲方）信息</h3>
+                            <div class="form-group">
+                                <label>生产方名称</label>
+                                <input type="text" name="producerName" required>
+                            </div>
+                            <div class="form-group">
+                                <label>统一社会信用代码</label>
+                                <input type="text" name="producerCode" required>
+                            </div>
+                            <div class="form-group">
+                                <label>联系人</label>
+                                <input type="text" name="producerContact" required>
+                            </div>
+                            <div class="form-group">
+                                <label>联系电话</label>
+                                <input type="tel" name="producerPhone" required>
+                            </div>
+                            <div class="form-group">
+                                <label>地址</label>
+                                <input type="text" name="producerAddress" required>
+                            </div>
+                        </div>
+
+                        <!-- 委托方（乙方）信息 -->
+                        <div class="form-section">
+                            <h3>委托方（乙方）信息</h3>
+                            <div class="form-group">
+                                <label>委托方名称</label>
+                                <input type="text" name="clientName" required>
+                            </div>
+                            <div class="form-group">
+                                <label>统一社会信用代码</label>
+                                <input type="text" name="clientCode" required>
+                            </div>
+                            <div class="form-group">
+                                <label>联系人</label>
+                                <input type="text" name="clientContact" required>
+                            </div>
+                            <div class="form-group">
+                                <label>联系电话</label>
+                                <input type="tel" name="clientPhone" required>
+                            </div>
+                            <div class="form-group">
+                                <label>地址</label>
+                                <input type="text" name="clientAddress" required>
+                            </div>
+                        </div>
+
+                        <!-- 生产内容 -->
+                        <div class="form-section">
+                            <h3>生产内容</h3>
+                            <div class="form-group">
+                                <label>产品名称</label>
+                                <input type="text" name="productName" required>
+                            </div>
+                            <div class="form-group">
+                                <label>生产数量</label>
+                                <input type="number" name="productionQuantity" required>
+                            </div>
+                            <div class="form-group">
+                                <label>单价（元）</label>
+                                <input type="number" name="unitPrice" required>
+                            </div>
+                            <div class="form-group">
+                                <label>总金额（元）</label>
+                                <input type="number" name="totalAmount" required>
+                            </div>
+                            <div class="form-group">
+                                <label>技术要求</label>
+                                <textarea name="technicalRequirements" rows="3" required></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label>质量标准</label>
+                                <textarea name="qualityStandards" rows="3" required></textarea>
+                            </div>
+                        </div>
+
+                        <!-- 交付方式 -->
+                        <div class="form-section">
+                            <h3>交付方式</h3>
+                            <div class="form-group">
+                                <label>交付方式</label>
+                                <select name="deliveryMethod" required>
+                                    <option value="once">一次性交付</option>
+                                    <option value="batch">分批交付</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>交付时间</label>
+                                <input type="date" name="deliveryDate" required>
+                            </div>
+                            <div class="form-group">
+                                <label>交付地点</label>
+                                <input type="text" name="deliveryLocation" required>
+                            </div>
+                        </div>
+
+                        <!-- 付款方式 -->
+                        <div class="form-section">
+                            <h3>付款方式</h3>
+                            <div class="form-group">
+                                <label>支付方式</label>
+                                <select name="paymentMethod" required>
+                                    <option value="advance">预付全款</option>
+                                    <option value="partial">分期付款</option>
+                                    <option value="monthly">月结</option>
+                                    <option value="quarterly">季度结算</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>付款说明</label>
+                                <textarea name="paymentTerms" rows="3" required></textarea>
+                            </div>
+                        </div>
+
+                        <!-- 违约责任 -->
+                        <div class="form-section">
+                            <h3>违约责任</h3>
+                            <div class="form-group">
+                                <label>质量违约金比例（%）</label>
+                                <input type="number" name="qualityPenaltyRate" required>
+                            </div>
+                            <div class="form-group">
+                                <label>延期违约金（元/天）</label>
+                                <input type="number" name="delayPenalty" required>
+                            </div>
+                            <div class="form-group">
+                                <label>其他违约条款</label>
+                                <textarea name="otherPenalties" rows="3"></textarea>
+                            </div>
+                        </div>
+
+                        <div class="form-actions">
+                            <button type="button" class="secondary-btn" onclick="contractGenerator.goBack()">返回</button>
+                            <button type="submit" class="primary-btn">生成合同</button>
+                        </div>
+                    </form>
+                </div>
             `
         };
         return templates[type] || '<div class="error-message">暂不支持该类型合同</div>';
@@ -521,19 +967,19 @@ class ContractGenerator {
     }
 
     handleFormSubmit(form) {
-        console.log('Handling form submit'); // 调试日志
+        console.log('Form submitted, contract type:', this.selectedType);
         const formData = new FormData(form);
         const contractData = Object.fromEntries(formData.entries());
-        console.log('Contract data:', contractData); // 调试日志
+        console.log('Form data:', contractData);
         this.generateContract(contractData);
     }
 
     generateContract(data) {
-        console.log('Generating contract with data:', data); // 调试日志
-        // 生成合同预览页面
+        console.log('Generating contract for type:', this.selectedType);
         const previewHtml = this.getPreviewTemplate(data);
+        console.log('Preview template:', previewHtml.substring(0, 100) + '...');
         
-        // 创建预览页面容器
+        // 生成合同预览页面
         const previewPage = document.createElement('div');
         previewPage.className = 'page-container preview-page';
         previewPage.innerHTML = previewHtml;
@@ -574,57 +1020,58 @@ class ContractGenerator {
 
     getPreviewTemplate(data) {
         const templates = {
-            'production': `
+            'house-lease': `
                 <div class="preview-container">
                     <div class="preview-header">
-                        <h2>生产合同</h2>
+                        <h2>房屋租赁合同</h2>
                         <div class="preview-actions">
                             <button class="secondary-btn" onclick="contractGenerator.editContract()">编辑</button>
                             <button class="primary-btn" onclick="contractGenerator.downloadContract()">下载合同</button>
                         </div>
                     </div>
                     <div class="preview-content" contenteditable="true">
-                        <div class="contract-title">生产合同</div>
+                        <div class="contract-title">房屋租赁合同</div>
                         
                         <div class="contract-section">
                             <h3>一、合同双方</h3>
-                            <p>委托方（甲方）：${data.partyAName}</p>
+                            <p>出租方（甲方）：${data.partyAName}</p>
                             <p>统一社会信用代码：${data.partyACode}</p>
                             <p>联系人：${data.partyAContact}</p>
                             <p>联系电话：${data.partyAPhone}</p>
-                            <p>生产方（乙方）：${data.partyBName}</p>
+                            <p>承租方（乙方）：${data.partyBName}</p>
                             <p>统一社会信用代码：${data.partyBCode}</p>
                             <p>联系人：${data.partyBContact}</p>
                             <p>联系电话：${data.partyBPhone}</p>
                         </div>
 
                         <div class="contract-section">
-                            <h3>二、生产内容</h3>
-                            <p>产品名称：${data.productName}</p>
-                            <p>生产数量：${data.productionQuantity}</p>
-                            <p>单价：${data.unitPrice}元</p>
-                            <p>总金额：${data.totalAmount}元</p>
-                            <p>技术要求：${data.technicalRequirements}</p>
-                            <p>质量标准：${data.qualityStandards}</p>
+                            <h3>二、房屋信息</h3>
+                            <p>房屋地址：${data.propertyAddress}</p>
+                            <p>建筑面积：${data.area}平方米</p>
+                            <p>房屋用途：${data.purpose}</p>
+                            <p>房屋状况：${data.condition}</p>
+                            <p>配套设施：${data.facilities}</p>
                         </div>
 
                         <div class="contract-section">
-                            <h3>三、交付方式</h3>
-                            <p>交付方式：${this.getDeliveryMethodName(data.deliveryMethod)}</p>
-                            <p>交付时间：${data.deliveryDate}</p>
-                            <p>交付地点：${data.deliveryLocation}</p>
-                        </div>
-
-                        <div class="contract-section">
-                            <h3>四、付款方式</h3>
+                            <h3>三、租赁信息</h3>
+                            <p>租赁期限：自 ${data.startDate} 至 ${data.endDate}</p>
+                            <p>租金：${data.rent}元/月</p>
                             <p>支付方式：${this.getPaymentMethodName(data.paymentMethod)}</p>
-                            <p>付款说明：${data.paymentTerms}</p>
+                            <p>押金：${data.deposit}元</p>
+                        </div>
+
+                        <div class="contract-section">
+                            <h3>四、其他约定</h3>
+                            <p>水电费承担方式：${this.getUtilityPaymentName(data.utilityPayment)}</p>
+                            <p>物业费承担方式：${this.getPropertyFeeName(data.propertyFee)}</p>
+                            <p>特别约定：${data.specialTerms}</p>
                         </div>
 
                         <div class="contract-section">
                             <h3>五、违约责任</h3>
-                            <p>1. 质量违约：如产品质量未达到约定标准，乙方应按合同总额的${data.qualityPenaltyRate}%支付违约金。</p>
-                            <p>2. 延期违约：如乙方逾期交付，每逾期一天应支付${data.delayPenalty}元违约金。</p>
+                            <p>1. 租金违约：如承租方逾期支付租金，每逾期一天应支付${data.delayPenalty}元违约金。</p>
+                            <p>2. 押金违约：如承租方未按约定支付押金，出租方有权解除合同并要求承租方支付违约金。</p>
                             ${data.otherPenalties ? `<p>3. 其他违约条款：${data.otherPenalties}</p>` : ''}
                         </div>
 
@@ -636,12 +1083,90 @@ class ContractGenerator {
                         <div class="contract-signatures">
                             <div class="signature-row">
                                 <div class="signature-block">
-                                    <p>委托方（甲方）：${data.partyAName}</p>
+                                    <p>出租方（甲方）：${data.partyAName}</p>
                                     <p>法定代表人或授权代表：____________</p>
                                     <p>日期：____________</p>
                                 </div>
                                 <div class="signature-block">
-                                    <p>生产方（乙方）：${data.partyBName}</p>
+                                    <p>承租方（乙方）：${data.partyBName}</p>
+                                    <p>法定代表人或授权代表：____________</p>
+                                    <p>日期：____________</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `,
+            'item-lease': `
+                <div class="preview-container">
+                    <div class="preview-header">
+                        <h2>物品租赁合同</h2>
+                        <div class="preview-actions">
+                            <button class="secondary-btn" onclick="contractGenerator.editContract()">编辑</button>
+                            <button class="primary-btn" onclick="contractGenerator.downloadContract()">下载合同</button>
+                        </div>
+                    </div>
+                    <div class="preview-content" contenteditable="true">
+                        <div class="contract-title">物品租赁合同</div>
+                        
+                        <div class="contract-section">
+                            <h3>一、合同双方</h3>
+                            <p>出租方（甲方）：${data.partyAName}</p>
+                            <p>统一社会信用代码：${data.partyACode}</p>
+                            <p>联系人：${data.partyAContact}</p>
+                            <p>联系电话：${data.partyAPhone}</p>
+                            <p>承租方（乙方）：${data.partyBName}</p>
+                            <p>统一社会信用代码：${data.partyBCode}</p>
+                            <p>联系人：${data.partyBContact}</p>
+                            <p>联系电话：${data.partyBPhone}</p>
+                        </div>
+
+                        <div class="contract-section">
+                            <h3>二、物品信息</h3>
+                            <p>物品名称：${data.itemName}</p>
+                            <p>规格型号：${data.specification}</p>
+                            <p>数量：${data.quantity}</p>
+                            <p>单价：${data.unitPrice}元</p>
+                            <p>总金额：${data.totalAmount}元</p>
+                            <p>质量标准：${data.qualityStandard}</p>
+                        </div>
+
+                        <div class="contract-section">
+                            <h3>三、租赁信息</h3>
+                            <p>租赁期限：自 ${data.startDate} 至 ${data.endDate}</p>
+                            <p>租金：${data.rent}元/月</p>
+                            <p>支付方式：${this.getPaymentMethodName(data.paymentMethod)}</p>
+                            <p>押金：${data.deposit}元</p>
+                        </div>
+
+                        <div class="contract-section">
+                            <h3>四、其他约定</h3>
+                            <p>水电费承担方式：${this.getUtilityPaymentName(data.utilityPayment)}</p>
+                            <p>物业费承担方式：${this.getPropertyFeeName(data.propertyFee)}</p>
+                            <p>特别约定：${data.specialTerms}</p>
+                        </div>
+
+                        <div class="contract-section">
+                            <h3>五、违约责任</h3>
+                            <p>1. 租金违约：如承租方逾期支付租金，每逾期一天应支付${data.delayPenalty}元违约金。</p>
+                            <p>2. 押金违约：如承租方未按约定支付押金，出租方有权解除合同并要求承租方支付违约金。</p>
+                            ${data.otherPenalties ? `<p>3. 其他违约条款：${data.otherPenalties}</p>` : ''}
+                        </div>
+
+                        <div class="contract-section">
+                            <h3>六、争议解决</h3>
+                            <p>本合同在履行过程中发生的争议，由双方当事人协商解决，协商不成的，任何一方均可向合同签订地人民法院提起诉讼。</p>
+                        </div>
+
+                        <div class="contract-signatures">
+                            <div class="signature-row">
+                                <div class="signature-block">
+                                    <p>出租方（甲方）：${data.partyAName}</p>
+                                    <p>法定代表人或授权代表：____________</p>
+                                    <p>日期：____________</p>
+                                </div>
+                                <div class="signature-block">
+                                    <p>承租方（乙方）：${data.partyBName}</p>
                                     <p>法定代表人或授权代表：____________</p>
                                     <p>日期：____________</p>
                                 </div>
@@ -835,6 +1360,163 @@ class ContractGenerator {
                         </div>
                     </div>
                 </div>
+            `,
+            'sale': `
+                <div class="preview-container">
+                    <div class="preview-header">
+                        <h2>买卖合同</h2>
+                        <div class="preview-actions">
+                            <button class="secondary-btn" onclick="contractGenerator.editContract()">编辑</button>
+                            <button class="primary-btn" onclick="contractGenerator.downloadContract()">下载合同</button>
+                        </div>
+                    </div>
+                    <div class="preview-content" contenteditable="true">
+                        <div class="contract-title">买卖合同</div>
+                        
+                        <div class="contract-section">
+                            <h3>一、合同双方</h3>
+                            <p>卖方（甲方）：${data.sellerName}</p>
+                            <p>统一社会信用代码：${data.sellerCode}</p>
+                            <p>联系人：${data.sellerContact}</p>
+                            <p>联系电话：${data.sellerPhone}</p>
+                            <p>地址：${data.sellerAddress}</p>
+                            <p>买方（乙方）：${data.buyerName}</p>
+                            <p>统一社会信用代码：${data.buyerCode}</p>
+                            <p>联系人：${data.buyerContact}</p>
+                            <p>联系电话：${data.buyerPhone}</p>
+                            <p>地址：${data.buyerAddress}</p>
+                        </div>
+
+                        <div class="contract-section">
+                            <h3>二、标的物信息</h3>
+                            <p>商品名称：${data.productName}</p>
+                            <p>规格型号：${data.specification}</p>
+                            <p>数量：${data.quantity}</p>
+                            <p>单价：${data.unitPrice}元</p>
+                            <p>总金额：${data.totalAmount}元</p>
+                            <p>质量标准：${data.qualityStandard}</p>
+                        </div>
+
+                        <div class="contract-section">
+                            <h3>三、交付信息</h3>
+                            <p>交付方式：${this.getDeliveryMethodName(data.deliveryMethod)}</p>
+                            <p>交付时间：${data.deliveryDate}</p>
+                            <p>交付地点：${data.deliveryLocation}</p>
+                            <p>运输方式：${this.getTransportMethodName(data.transportMethod)}</p>
+                        </div>
+
+                        <div class="contract-section">
+                            <h3>四、付款方式</h3>
+                            <p>支付方式：${this.getPaymentMethodName(data.paymentMethod)}</p>
+                            <p>付款说明：${data.paymentTerms}</p>
+                        </div>
+
+                        <div class="contract-section">
+                            <h3>五、违约责任</h3>
+                            <p>1. 质量违约：如产品质量未达到约定标准，买方应按合同总额的${data.qualityPenaltyRate}%支付违约金。</p>
+                            <p>2. 延期违约：如买方逾期支付货款，每逾期一天应支付${data.delayPenalty}元违约金。</p>
+                            ${data.otherPenalties ? `<p>3. 其他违约条款：${data.otherPenalties}</p>` : ''}
+                        </div>
+
+                        <div class="contract-section">
+                            <h3>六、争议解决</h3>
+                            <p>本合同在履行过程中发生的争议，由双方当事人协商解决，协商不成的，任何一方均可向合同签订地人民法院提起诉讼。</p>
+                        </div>
+
+                        <div class="contract-signatures">
+                            <div class="signature-row">
+                                <div class="signature-block">
+                                    <p>卖方（甲方）：${data.sellerName}</p>
+                                    <p>法定代表人或授权代表：____________</p>
+                                    <p>日期：____________</p>
+                                </div>
+                                <div class="signature-block">
+                                    <p>买方（乙方）：${data.buyerName}</p>
+                                    <p>法定代表人或授权代表：____________</p>
+                                    <p>日期：____________</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `,
+            'production': `
+                <div class="preview-container">
+                    <div class="preview-header">
+                        <h2>生产合同</h2>
+                        <div class="preview-actions">
+                            <button class="secondary-btn" onclick="contractGenerator.editContract()">编辑</button>
+                            <button class="primary-btn" onclick="contractGenerator.downloadContract()">下载合同</button>
+                        </div>
+                    </div>
+                    <div class="preview-content" contenteditable="true">
+                        <div class="contract-title">生产合同</div>
+                        
+                        <div class="contract-section">
+                            <h3>一、合同双方</h3>
+                            <p>生产方（甲方）：${data.producerName}</p>
+                            <p>统一社会信用代码：${data.producerCode}</p>
+                            <p>联系人：${data.producerContact}</p>
+                            <p>联系电话：${data.producerPhone}</p>
+                            <p>地址：${data.producerAddress}</p>
+                            <p>委托方（乙方）：${data.clientName}</p>
+                            <p>统一社会信用代码：${data.clientCode}</p>
+                            <p>联系人：${data.clientContact}</p>
+                            <p>联系电话：${data.clientPhone}</p>
+                            <p>地址：${data.clientAddress}</p>
+                        </div>
+
+                        <div class="contract-section">
+                            <h3>二、生产内容</h3>
+                            <p>产品名称：${data.productName}</p>
+                            <p>生产数量：${data.productionQuantity}</p>
+                            <p>单价：${data.unitPrice}元</p>
+                            <p>总金额：${data.totalAmount}元</p>
+                            <p>技术要求：${data.technicalRequirements}</p>
+                            <p>质量标准：${data.qualityStandards}</p>
+                        </div>
+
+                        <div class="contract-section">
+                            <h3>三、交付方式</h3>
+                            <p>交付方式：${this.getDeliveryMethodName(data.deliveryMethod)}</p>
+                            <p>交付时间：${data.deliveryDate}</p>
+                            <p>交付地点：${data.deliveryLocation}</p>
+                        </div>
+
+                        <div class="contract-section">
+                            <h3>四、付款方式</h3>
+                            <p>支付方式：${this.getPaymentMethodName(data.paymentMethod)}</p>
+                            <p>付款说明：${data.paymentTerms}</p>
+                        </div>
+
+                        <div class="contract-section">
+                            <h3>五、违约责任</h3>
+                            <p>1. 质量违约：如产品质量未达到约定标准，委托方应按合同总额的${data.qualityPenaltyRate}%支付违约金。</p>
+                            <p>2. 延期违约：如委托方逾期交付，每逾期一天应支付${data.delayPenalty}元违约金。</p>
+                            ${data.otherPenalties ? `<p>3. 其他违约条款：${data.otherPenalties}</p>` : ''}
+                        </div>
+
+                        <div class="contract-section">
+                            <h3>六、争议解决</h3>
+                            <p>本合同在履行过程中发生的争议，由双方当事人协商解决，协商不成的，任何一方均可向合同签订地人民法院提起诉讼。</p>
+                        </div>
+
+                        <div class="contract-signatures">
+                            <div class="signature-row">
+                                <div class="signature-block">
+                                    <p>生产方（甲方）：${data.producerName}</p>
+                                    <p>法定代表人或授权代表：____________</p>
+                                    <p>日期：____________</p>
+                                </div>
+                                <div class="signature-block">
+                                    <p>委托方（乙方）：${data.clientName}</p>
+                                    <p>法定代表人或授权代表：____________</p>
+                                    <p>日期：____________</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             `
         };
 
@@ -969,10 +1651,12 @@ class ContractGenerator {
     // 获取合同标题
     getContractTitle() {
         const titleMap = {
-            lease: '租赁合同',
-            labor: '劳动合同',
-            service: '服务合同',
-            sale: '买卖合同'
+            'house-lease': '房屋租赁合同',
+            'item-lease': '物品租赁合同',
+            'labor': '劳动合同',
+            'service': '服务合同',
+            'sale': '买卖合同',
+            'production': '生产合同'
         };
         return titleMap[this.selectedType] || '合同';
     }
@@ -1010,6 +1694,25 @@ class ContractGenerator {
             'custom': '其他'
         };
         return bases[base] || base;
+    }
+
+    // 辅助方法：获取水电费承担方式名称
+    getUtilityPaymentName(type) {
+        const types = {
+            'tenant': '承租方承担',
+            'landlord': '出租方承担',
+            'share': '双方分摊'
+        };
+        return types[type] || type;
+    }
+
+    // 辅助方法：获取物业费承担方式名称
+    getPropertyFeeName(type) {
+        const types = {
+            'tenant': '承租方承担',
+            'landlord': '出租方承担'
+        };
+        return types[type] || type;
     }
 }
 
